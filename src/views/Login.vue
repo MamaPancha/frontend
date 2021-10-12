@@ -33,7 +33,7 @@ export default {
         },
         login(){
             console.log("Verificando credenciales");
-            this.$router.push('/CRUD')
+            this.$router.push('/MenuAdmin')
         }
     }
 }

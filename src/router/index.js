@@ -21,9 +21,9 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/crud',
-    name: 'CRUD',
-    component: () => import('../views/CRUD.vue')
+    path: '/menuadmin',
+    name: 'MenuAdmin',
+    component: () => import('../views/MenuAdmin.vue')
   }
 ]
 
