@@ -30,7 +30,7 @@
                   </v-chip-group>
                 </v-card-text>
                 <div class="d-flex justify-center">
-                    • MamaPancha• productos artesanales
+                    • MamaPancha • productos artesanales • 
                 </div>
 
               

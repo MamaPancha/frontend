@@ -14,9 +14,6 @@
         <v-row class="d-flex justify-center text-h5 grey--text text--darken-3 my-8">
             <iframe class="d-flex justify-center" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.7573334915896!2d-73.13098978596364!3d6.5522910246475945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e69c72f344146e3%3A0x612b966d253611d2!2sCl.%207%20%239-29%2C%20San%20Gil%2C%20Santander!5e0!3m2!1ses!2sco!4v1633815083948!5m2!1ses!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </v-row>
-
-
-        </v-row>
     </div>
 </template>
 
