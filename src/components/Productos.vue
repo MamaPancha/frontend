@@ -15,8 +15,8 @@
                   <v-rating class="d-flex justify-end" :value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
                 </v-col>            
               </v-row>
-              <v-row class="d-flex justify-start font-weight-medium my-4 text-subtitle-1">
-                Descripción: <span>{{ item.descripcion }}</span>
+              <v-row class="d-flex justify-start font-weight-medium my-4 text-subtitle-1 mx-0">
+                Descripción: <span> {{ item.descripcion }}</span>
               </v-row>
               <v-row class="d-flex justify-center text-h6">
                 Disponibilidad
