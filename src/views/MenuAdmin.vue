@@ -1,5 +1,42 @@
 <template>
     <div>
+        <v-container>
+        <p v-show="veo">
+            <v-form ref="form" v-model="valid" lazy-validation >
+                <v-row>
+                    <v-col cols="3" sm="4" md="3">
+                        <v-text-field v-model="nombrefill" :counter="20" :rules="nombreRules" 
+                        label= "Nombre" required >
+                        </v-text-field>
+                    </v-col>
+                    <v-col col="3" sm="4" md="3">
+                        <v-text-field v-model="preciofill" :counter="6" :rules="precioRules" label="Precio " prefix="$" required >
+                        </v-text-field>
+                    </v-col>
+                    <v-col cols="3" sm="4" md="3">
+                        <v-file-input
+                            :rules="imgURL"
+                            accept="image/png, image/jpeg,"
+                            placeholder="Elije una imagen"
+                            prepend-icon="mdi-camera"
+                            label="Imagen"> 
+                        </v-file-input>                        
+                    </v-col>
+                </v-row>
+                <v-row cols="3" sm="6" md="3" class="d-flex justify-center mt-0">
+                    <v-col>
+                        <v-text-field v-model="descripcionfill" :counter="80" :rules="descripcionRules" label="Descripción" required>
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+                <p><small>*Todos los campos son requeridos</small></p>
+                    <v-btn class="caption my-3 mx-2" color="#00BFA5" x-small dark :disabled="!valid" v-on:click="editar(item._id, item.nombre, item.precio, item.imgUrl, item.descripcion)"> 
+                    Guardar Cambios
+                    </v-btn>
+            </v-form>
+        </p>       
+        </v-container>
+
         <v-row class="mx-3 my-5">
             <!--MENU ADMIN-->
             <v-col cols="3" sm="12" md="3"> 
@@ -23,17 +60,17 @@
                                         <v-container>
                                         <v-row>
                                             <v-col>
-                                                <v-text-field v-model="nombre" :counter="20" :rules="nombreRules" label="Nombre " required >
+                                                <v-text-field v-model="nombreForm" :counter="20" :rules="nombreRules" label="Nombre " required >
                                                 </v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="precio" :counter="6" :rules="precioRules" label="Precio " prefix="$" required >
+                                                <v-text-field v-model="precioForm" :counter="6" :rules="precioRules" label="Precio " prefix="$" required >
                                                 </v-text-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-file-input
-                                                :rules="foto"
+                                                :rules="imgURL"
                                                 accept="image/png, image/jpeg,"
                                                 placeholder="Elije una imagen"
                                                 prepend-icon="mdi-camera"
@@ -41,7 +78,7 @@
                                             </v-file-input>
                                         </v-row>
                                         <v-row class="mt-0">
-                                            <v-text-field v-model="descripcion" :counter="80" :rules="descripcionRules" label="Descripción" required>
+                                            <v-text-field v-model="descripcionForm" :counter="80" :rules="descripcionRules" label="Descripción" required>
                                             </v-text-field>
                                         </v-row>
                                         </v-container>
@@ -73,8 +110,8 @@
                                     <v-container>
                                     <v-row>
                                         <v-col>
-                                            <v-autocomplete :items="['Obleas', 'Solteritas', 'Arequipe con mora', 'Conservas de fruta']" label="Tipo de Producto" v-model="select" 
-                                            :rules="[v => !!v || 'Item is required']" multiple  ></v-autocomplete>
+                                            <!--<v-autocomplete :items="['Obleas', 'Solteritas', 'Arequipe con mora', 'Conservas de fruta']" label="Tipo de Producto" v-model="select" 
+                                            :rules="[v => !!v || 'Item is required']" multiple  ></v-autocomplete>-->
                                         </v-col>
                                     </v-row>
                                     </v-container>
@@ -120,22 +157,16 @@
                         </tr>
                     </thead>
                     <tbody class="text-center text-body-2 font-weight-medium">
-                        <tr
-                        v-for="item in productos"
-                        :key="item._id"
-                        >
+                        <tr v-for="item in productos" :key="item._id">
                         <td cols="3" class="mx-0 px-0">
-                            <div>
-                                <v-btn class="caption my-3 mx-2" x-small color="#00BFA5"  dark @click="editar(item._id)" v-bind="attrs" v-on="on">
-                                    <v-icon left>mdi-pencil</v-icon>
-                                    Editar
-                                </v-btn>
-                                <v-btn class="caption my-3 mx-2" x-small color="#EF9A9A" dark @click="borrar(item._id)">
-                                    <v-icon left>mdi-eraser</v-icon>
+                            <v-btn class="caption my-3 mx-2" color="#00BFA5" x-small dark v-on:click="veo =!veo"> 
+                                <v-icon left>mdi-pencil</v-icon>
+                                Editar producto
+                            </v-btn>
+                            <v-btn class="caption my-3 mx-2" x-small color="#EF9A9A" dark @click="borrar(item._id)">
+                                <v-icon left>mdi-eraser</v-icon>
                                     Borrar
-                                </v-btn>
-                            </div>
-
+                            </v-btn>
                         </td>
                         <td>{{ item.nombre }}</td>
                         <td>{{ item.precio }}</td>
@@ -150,7 +181,7 @@
     </div>
 </template>
 
-
+<!--@click="editar(item._id, item.nombre, item.precio, item.imgUrl, item.descripcion)"-->
 <script>
 import store from '../store/index.js'
 
@@ -158,12 +189,12 @@ export default {
     data: () => {
         return {
             valid: true,
-            nombre: '',
+            nombreForm: '',
             nombreRules: [
                 v => !!v || 'Ingresa el nombre del producto',
                 v => (v && v.length <= 20) || '',
             ],
-            precio: '',
+            precioForm: '',
             precioRules: [
                 v => !!v || 'Ingresa el precio',
                 v => (v && v.length <= 6) || '',
@@ -171,14 +202,16 @@ export default {
             imgURL: [
                 value => !value || value.size < 2000000 || 'La foto debe ser menor a 2 MB!',
             ],            
-            descripcion: '',
+            descripcionForm: '',
             descripcionRules: [
                 v => !!v || 'Ingresa la descripción',
                 v => (v && v.length <= 80) || '',
             ],
-
             dialog: false,
             dialog2: false,
+            veo:false,
+
+            
         }
     },
 
@@ -192,24 +225,27 @@ export default {
                 console.log("Añadido producto");
 
                 let objProducto = {
-                    nombre: this.nombre,
-                    precio: this.precio,
+                    nombre: this.nombreForm,
+                    precio: this.precioForm,
                     imgUrl: this.imgUrl,
-                    descripcion: this.descripcion
+                    descripcion: this.descripcionForm
                 }
                 //llamo acciones el store
                 store.dispatch('registrarProducto', objProducto)
                 //this.$router.push('/')
             }
+            this.$refs.form.reset()
         },
-        editar(id){
-            //se toma como id:id
-            let objProducto = {id};
+        editar(id,nombre,precio,imgUrl,descripcion){
+            let objProducto = {
+                id,nombre,precio,imgUrl,descripcion
+            }
             store.dispatch('editarProducto', objProducto).then(()=>{
                 store.dispatch("cargarProducto");
             }).catch((error)=>{
                 console.log(error)
             });
+            this.$refs.form.reset()
         },
         borrar(id){
             //se toma como id:id
@@ -228,7 +264,7 @@ export default {
 
     computed: {
         productos: ()=>{
-            store.dispatch("cargarProductos");
+            store.dispatch("cargarProducto");
             return store.state.productos;
         }
     }

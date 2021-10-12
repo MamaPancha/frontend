@@ -23,6 +23,7 @@ export default new Vuex.Store({
     //para acceder mutations uso las acciones con commit
     async cargarProducto({commit}){
       const peticion = await fetch('http://localhost:3000/producto');
+      //const peticion = await fetch('mongodb+srv://prueba9876:9876@misiontic.b1dgb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority/producto');
       const data = await peticion.json();
       commit('setProducto', data);
       console.log(data);
