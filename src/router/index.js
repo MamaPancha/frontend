@@ -24,6 +24,16 @@ const routes = [
     path: '/menuadmin',
     name: 'MenuAdmin',
     component: () => import('../views/MenuAdmin.vue')
+  },
+  {
+    path: '/registrousuario',
+    name: 'RegistroUsuario',
+    component: () => import('../views/RegistroUsuario.vue')
+  },
+  {
+    path: '/tablaadmin',
+    name: 'TablaAdmin',
+    component: () => import('../views/TablaAdmin.vue')
   }
 ]
 

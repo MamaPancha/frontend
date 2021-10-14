@@ -1,42 +1,5 @@
 <template>
     <div>
-        <v-container>
-        <p v-show="veo">
-            <v-form ref="form" v-model="valid" lazy-validation >
-                <v-row>
-                    <v-col cols="3" sm="4" md="3">
-                        <v-text-field v-model="nombrefill" :counter="20" :rules="nombreRules" 
-                        label= "Nombre" required >
-                        </v-text-field>
-                    </v-col>
-                    <v-col col="3" sm="4" md="3">
-                        <v-text-field v-model="preciofill" :counter="6" :rules="precioRules" label="Precio " prefix="$" required >
-                        </v-text-field>
-                    </v-col>
-                    <v-col cols="3" sm="4" md="3">
-                        <v-file-input
-                            :rules="imgURL"
-                            accept="image/png, image/jpeg,"
-                            placeholder="Elije una imagen"
-                            prepend-icon="mdi-camera"
-                            label="Imagen"> 
-                        </v-file-input>                        
-                    </v-col>
-                </v-row>
-                <v-row cols="3" sm="6" md="3" class="d-flex justify-center mt-0">
-                    <v-col>
-                        <v-text-field v-model="descripcionfill" :counter="80" :rules="descripcionRules" label="Descripción" required>
-                        </v-text-field>
-                    </v-col>
-                </v-row>
-                <p><small>*Todos los campos son requeridos</small></p>
-                    <v-btn class="caption my-3 mx-2" color="#00BFA5" x-small dark :disabled="!valid" v-on:click="editar(item._id, item.nombre, item.precio, item.imgUrl, item.descripcion)"> 
-                    Guardar Cambios
-                    </v-btn>
-            </v-form>
-        </p>       
-        </v-container>
-
         <v-row class="mx-3 my-5">
             <!--MENU ADMIN-->
             <v-col cols="3" sm="12" md="3"> 
@@ -94,39 +57,14 @@
                             </v-dialog>
                         </v-row>
 
-            <!--BOTÓN BUSCAR PRODUCTO-->
-                    <v-row justify="center">
-                        <v-dialog v-model="dialog2" persistent max-width="600px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn class="my-3" color="#00BFA5"  dark v-bind="attrs" v-on="on">
-                                BUSCAR PRODUCTO
-                                </v-btn>
-                            </template>
-                            <v-card>
-                                <v-card-title><span class="text-h5">Agregar producto</span>
-                                </v-card-title>
-                                <v-card-text>
-                                <v-form ref="form" v-model="valid" lazy-validation>
-                                    <v-container>
-                                    <v-row>
-                                        <v-col>
-                                            <!--<v-autocomplete :items="['Obleas', 'Solteritas', 'Arequipe con mora', 'Conservas de fruta']" label="Tipo de Producto" v-model="select" 
-                                            :rules="[v => !!v || 'Item is required']" multiple  ></v-autocomplete>-->
-                                        </v-col>
-                                    </v-row>
-                                    </v-container>
-                                </v-form>
-                                </v-card-text>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn color="#00BFA5" text @click="dialog2=false">Guardar</v-btn>
-                                    <v-btn class="text-subtitle-2 font-weight-bold my-3" color="#EF9A9A" text @click="dialog2=false">Cerrar</v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                    </v-row>
-                    </v-form>
-                </v-card-text>
+            <!--BOTÓN BUSCAR ADMIN-->
+                        <v-row justify="center">
+                            <v-btn class="my-3" color="#00BFA5"  dark @click="menuadmin">
+                            USUARIOS ADMIN
+                            </v-btn>
+                        </v-row>
+                        </v-form>
+                    </v-card-text>
                 <v-card-actions class="d-flex justify-end">
                     <v-btn class="text-subtitle-2 font-weight-bold" color="#EF9A9A" text @click="salir">SALIR</v-btn>
                 </v-card-actions>
@@ -159,7 +97,7 @@
                     <tbody class="text-center text-body-2 font-weight-medium">
                         <tr v-for="item in productos" :key="item._id">
                         <td cols="3" class="mx-0 px-0">
-                            <v-btn class="caption my-3 mx-2" color="#00BFA5" x-small dark v-on:click="veo =!veo"> 
+                            <v-btn class="caption my-3 mx-2" color="#00BFA5" x-small dark> 
                                 <v-icon left>mdi-pencil</v-icon>
                                 Editar producto
                             </v-btn>
@@ -208,9 +146,6 @@ export default {
                 v => (v && v.length <= 80) || '',
             ],
             dialog: false,
-            dialog2: false,
-            veo:false,
-
             
         }
     },
@@ -255,11 +190,15 @@ export default {
             }).catch((error)=>{
                 console.log(error)
             });
-        }
+        },
+        menuadmin(){
+            console.log("Registro admin");
+            this.$router.push('/TablaAdmin')
+        },
     },
 
     created: ()=>{
-        store.dispatch('cargarProducto');
+        store.dispatch('cargarProducto')
     },
 
     computed: {
